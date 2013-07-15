@@ -1,0 +1,56 @@
+
+.container {
+	width: 600px;
+}
+
+#brand {
+	font-size: 38.5px;
+	line-height: 40px;
+	margin: 30px 0 40px 0;
+}
+
+#thisAlot {
+	width: 400px;
+	margin:auto;
+}
+
+#thisAlot .twitter-share-button {
+	float: right;
+}
+
+#thisAlot .alot {
+	clear: both;
+	margin: 20px 0;
+	float: left;
+	
+	-moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+#howIsAlotFormed {
+	clear: both;
+}
+
+#howIsAlotFormed .prefix {
+	font-size: 20px;
+	line-height: 32px;
+}
+
+.input-boxes {
+	width: 400px;
+	float: left;
+	position: relative;
+	margin: 20px 0 20px;
+}
+
+.input-boxes input {
+	width: 386px;
+}
+
+.make-alot-button {
+	margin: 20px 0 0 20px;
+	width: 100px;
+	height: 70px;
+	float: left;
+}
