@@ -1,0 +1,17 @@
+app_path = "post_domain_path_goes_here"
+
+[default]
+word = "something"
+image = "http://happybirthdaygordo.com/neutral-its-something-l.png"
+
+[db]
+dsn = "mysql:host=localhost;dbname=alot_db"
+username = "alot_username"
+password = "alot_password"
+
+[curate]
+username = "admin"
+password = "curator_password"
+
+[ga]
+code = "UA-XXXXXXXX-X"

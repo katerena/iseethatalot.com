@@ -1,50 +1,42 @@
 <?php
-// Check username and password:
-$users = array(
-	'admin' => 'alotbetterthanyou'
-);
+include 'include/util.php.inc';
 
-if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])){
- 
-    $username = $_SERVER['PHP_AUTH_USER'];
-    $password = $_SERVER['PHP_AUTH_PW'];
- 
-    if (isset($users[$username]) && $users[$username] === $password) {
-	$authenticated = TRUE;
+$config = read_config();
+$db = $config->mkdb();
+
+$config->require_curator();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = NULL;
+    $rating = NULL;
+    if (isset($_POST['id'])) {
+        $id = $_POST['id'];
     }
-} 
-if (!$authenticated) {
-    header('WWW-Authenticate: Basic realm="My Realm"');
-    header('HTTP/1.0 401 Unauthorized');
-    echo 'Authentication Required';
-    exit;
-}
+    if (isset($_POST['rating'])) {
+        $rating = $_POST['rating'];
+    }
 
-$conn = new PDO('mysql:host=localhost;dbname=kukmbr_alot', 'kukmbr_alot', 'kukmbr_alot1');
-
-if (isset($_POST['id']) && isset($_POST['rating'])) {
-	$rating = $_POST['rating'];
-	$id = $_POST['id'];
-	
 	if (!$id || !$rating) {
 		header("HTTP/1.0 400 Bad Request");
 		echo 'Missing parameters';
 		die();
 	}
 	
-	$stmt = $conn->prepare('UPDATE alot SET curator_rating=:rating WHERE id=:id');
-	$stmt->bindParam(':rating', $rating);
-	$stmt->bindParam(':id', $id);
-	
-	if ($stmt->execute()) {
-		echo "Rating $rating saved for alot $id";
-	} else {
+    if ($db->set_alot_rating($id, $rating)) {
+        echo "Rating $rating saved for alot $id";
+    } else {
 		header("HTTP/1.0 404 Not Found");
 		echo 'Rating not saved';
-	}
+    }
 	
 	die();
 }
+
+$alots = $db->get_alots();
+if ($alots === FALSE) {
+    $config->error(404, 'No more alots');
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -66,17 +58,13 @@ if (isset($_POST['id']) && isset($_POST['rating'])) {
 	</tr>
 	
 	<?php
-	$stmt = $conn->prepare('SELECT * FROM alot ORDER BY added DESC');
-	$stmt->execute();
-	$alots = $stmt->fetchAll();
-	
 	foreach ($alots as $alot) {
 	?>
 	<tr data-id="<?php echo $alot['ID']?>">
 		<td><?php echo $alot['ID'] ?></td>
 		<td><?php echo $alot['added'] ?></td>
 		<td>
-			<EMBED src='svg.php?src=<?php echo $alot['image']?>&word=<?php echo $alot['word']?>'  type="image/svg+xml" />
+			<EMBED src='svg.php?src=<?php echo htmlentities($alot['image'])?>&word=<?php echo htmlentities($alot['word'])?>'  type="image/svg+xml" />
 		</td>
 		<td>
 			<div class="btn-group">

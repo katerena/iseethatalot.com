@@ -6,12 +6,18 @@
 #brand {
 	font-size: 38.5px;
 	line-height: 40px;
-	margin: 30px 0 40px 0;
+	margin: 40px 0 20px 0;
+}
+
+#brand a {
+    color: #333;
+    text-decoration: none;
 }
 
 #thisAlot {
 	width: 400px;
 	margin:auto;
+    text-align: center;
 }
 
 #thisAlot .twitter-share-button {
@@ -26,6 +32,10 @@
 	-moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
 	-webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
 	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+#thisAlot h2 {
+    font-size: 23px;
 }
 
 #howIsAlotFormed {
