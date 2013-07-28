@@ -1,7 +1,7 @@
 <?php
 
-include 'include/this_alot.php.inc';
-include 'include/util.php.inc';
+include_once 'include/util.php.inc';
+include_once 'include/this_alot.php.inc'; 
 
 $config = read_config();
 $db = $config->mkdb();
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $config->error(400, 'sad alot');
     }
     
-    $id = $db->insert_alot($word, $image);
+    $id = $db->insert_alot($word, $image, NULL);
     if (!$id) {
         $config->error(500, 'alot more broken');
     }
@@ -31,23 +31,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 //The default case -- a GET request
-
 //id is optional
 $id = NULL;
-$default = FALSE;
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    
-    //must find alot    
-    $row = $db->get_alot($id);
-    if ($row === FALSE) {
-        $config->error(404, 'alot not found');
-    } else {
-        //And alot data
-        $word = $row['word'];
-        $image = $row['image'];    
-        if (!$word || !$image) {
+
+    if ($id) {
+        //Generate the url to this alot
+        $alot_url = $config->alot_url($id);
+        
+        //must find alot    
+        $row = $db->get_alot($id);
+        if ($row === FALSE) {
             $config->error(404, 'alot not found');
+        } else {
+            //And alot data
+            $alot_img = $row['alot_img'];
+            $word = htmlentities($row['word']);
+            if (!$word) {
+                $config->error(404, 'alot not found!');
+            }
         }
     }
 }
@@ -66,14 +69,34 @@ if (isset($_GET['id'])) {
 
         <H1 id="brand"><A href="<?php echo $config->root_url() ?>">ISEETHATALOT.COM</A></H1>
 
-        <DIV id="thisAlot">
-            <?php 
-            if ($id) {
-                show_alot($config->alot_url($id), $word, $image);
-            } else { ?>
+        <div id="thisAlot">
+            <?php if ($id) { ?>
+                <h2>alot of <?php echo $word ?></h2>
+            
+                <!-- Share alot url -->
+                Share: 
+                    <a href="<?php echo $alot_url; ?>">
+                        <?php echo $alot_url; ?>
+                    </a>
+                
+                <!-- Share alot on Twitter -->
+                <a href="https://twitter.com/share" 
+                    class="twitter-share-button" 
+                    data-url="<?php echo $alot_url; ?>" 
+                    data-via="seethatalot" 
+                    data-hashtags="alot">Tweet</a>
+                <!-- Twitter JS -->
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            
+            <?php
+                //Show a custom alot
+                show_alot($id, $alot_img, $word);
+            } else { 
+                //Show the alot splash image
+            ?>
                 <IMG class="alot" src='img/alots/default.png' />
             <?php } ?>
-        </DIV>
+        </div>
 
         <DIV id="howIsAlotFormed">
             <FORM METHOD="POST">
@@ -120,7 +143,48 @@ if (isset($_GET['id'])) {
 
   ga('create', '<?php echo $config->ga_code() ?>', 'iseethatalot.com');
   ga('send', 'pageview');
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+(function() {
+    var ALOT_REFRESH_INTERVAL = 5000;
+    var PLACEHOLDER_SELECTOR = '.generating';
+    var ALOT_SELECTOR = '.alot';
+    var ALOT_URL = 'this_alot.php';
+    var ALOT_ID = null;
+    
+    function scheduleRefresh() {
+        setTimeout(checkOnAlot, ALOT_REFRESH_INTERVAL);
+    }
 
+    function checkOnAlot() {
+        console.log("Checking on alot...");
+        
+        $.get(ALOT_URL, {
+            id: ALOT_ID
+        })
+        .done(function(content) {
+            $(ALOT_SELECTOR).replaceWith(content);
+            var generatingMsg = $(PLACEHOLDER_SELECTOR);
+            if (generatingMsg.length) {
+                scheduleRefresh();
+            }
+        })
+        .fail(function() {
+            alert("Sorry, we're having alot of problems :(");
+            scheduleRefresh();
+        });
+    }
+
+    $(document).ready(function() {
+        var generatingMsg = $(PLACEHOLDER_SELECTOR);
+        
+        if (generatingMsg.length) {
+            ALOT_ID = generatingMsg.data('alot-id');
+            scheduleRefresh();
+        }
+    });
+})();
 </script>
 
 </BODY>

@@ -3,13 +3,17 @@ include 'include/db.php.inc';
 
 class Config {
     var $config;
+    var $db = NULL;
     
     public function __construct($config) {
         $this->config = $config;
     }
     
     function mkdb() {
-        return new DB($this->config['db']['dsn'], $this->config['db']['username'], $this->config['db']['password']);
+        if ($this->db === NULL) {
+            $this->db = new DB($this->config['db']['dsn'], $this->config['db']['username'], $this->config['db']['password']);
+        }
+        return $this->db;
     }
     
     function error($code, $message) {

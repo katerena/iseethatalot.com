@@ -34,6 +34,14 @@
 	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
 }
 
+#thisAlot .alot.generating {
+    height: 294px;
+    width: 400px;
+    line-height: 294px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
 #thisAlot h2 {
     font-size: 23px;
 }
