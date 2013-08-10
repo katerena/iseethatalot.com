@@ -20,28 +20,31 @@ from alot_maker import AlotMaker, ProcessError
 
 log = logging.getLogger("alot_main")
 
+
 class TempImageFile(object):
-  """temporary file object context.  Deletes the file
-     on the way out.  convinient!
-  """
-  def __init__(self, extension):
-    self.extension = extension
-    self.file_path = None
-    self.file_handle = None
-
-  def __enter__(self):
-    """on entering the context, create a temp file, save the path so we can
-       delete it, and return the file handle and path.
+    """temporary file object context.  Deletes the file
+       on the way out.  convinient!
     """
-    os_file, self.file_path = tempfile.mkstemp(suffix=self.extension)
-    self.file_handle = os.fdopen(os_file, 'wb')
-    return self.file_handle, self.file_path
 
-  def __exit__(self, exc_type, value, traceback):
-    """close and delete the file.
-    """
-    self.file_handle.close()
-    os.unlink(self.file_path)
+    def __init__(self, extension):
+        self.extension = extension
+        self.file_path = None
+        self.file_handle = None
+
+    def __enter__(self):
+        """on entering the context, create a temp file, save the path so we can
+           delete it, and return the file handle and path.
+        """
+        os_file, self.file_path = tempfile.mkstemp(suffix=self.extension)
+        self.file_handle = os.fdopen(os_file, 'wb')
+        return self.file_handle, self.file_path
+
+    def __exit__(self, exc_type, value, traceback):
+        """close and delete the file.
+        """
+        self.file_handle.close()
+        os.unlink(self.file_path)
+
 
 def run_forever(db_conn, maker, destination='.'):
     """ridiculously-unscalble solution.  Reads off the db to see what's not been
@@ -64,7 +67,7 @@ def run_forever(db_conn, maker, destination='.'):
           remote server was down, but that's a rare case and we wouldn't want
           to retry automatically, anyway.
     """
-    
+
     log.debug("running forever...")
     while True:
         #check for unprocessed stuffs which have no error messages
@@ -76,73 +79,73 @@ def run_forever(db_conn, maker, destination='.'):
                     ORDER BY added ASC""")
         results = c.fetchall()
         c.close()
-        
+
         if len(results):
-        
+
             log.debug("found %s to process", len(results))
-        
+
             # we have some to process, run through them
             # in FIFO order.
             for r in results:
-                    alot_id = r[0]
-                    base_image_url = r[1]
-                    date_added = r[2]
-                    alot_word = r[3]
-                    
-                    log.debug("processing %s for alot of %s", base_image_url, alot_word)
+                alot_id = r[0]
+                base_image_url = r[1]
+                date_added = r[2]
+                alot_word = r[3]
 
-                    try:
-                        #call out to download and resize the image
-                        alot_image = maker.process(base_image_url, alot_word)
-                        
-                        # save the image somewhere
-                        alot_path = "%s/alot_%d.png" %(destination, alot_id)
-                        alot_image.save(alot_path)
-                          
-                    except ProcessError as e:
-                        #we had a handled error, set the error message to the
-                        #exception message and flag it as processed.
-                        log.info("caught handled error: %s", e)
-                        c = db_conn.cursor()
-                        c.execute("""UPDATE alot
+                log.debug("processing %s for alot of %s", base_image_url, alot_word)
+
+                try:
+                    #call out to download and resize the image
+                    alot_image = maker.process(base_image_url, alot_word)
+
+                    # save the image somewhere
+                    alot_path = "%s/alot_%d.png" % (destination, alot_id)
+                    alot_image.save(alot_path)
+
+                except ProcessError as e:
+                    #we had a handled error, set the error message to the
+                    #exception message and flag it as processed.
+                    log.info("caught handled error: %s", e)
+                    c = db_conn.cursor()
+                    c.execute("""UPDATE alot
                                    SET processed=TRUE, status=%s
-                                   WHERE ID=%s""", 
-                                   (str(e), alot_id))
-                        c.close()
-                      
-                    except Exception as e:
-                        #catch all other exceptions, log them.
-                        log.exception("unknown exception in image processor")
-                        #set it to unprocessed, but an error message, so we don't
-                        #immediately process it again.
-                        c = db_conn.cursor()
-                        c.execute("""UPDATE alot
+                                   WHERE ID=%s""",
+                              (str(e), alot_id))
+                    c.close()
+
+                except Exception as e:
+                    #catch all other exceptions, log them.
+                    log.exception("unknown exception in image processor")
+                    #set it to unprocessed, but an error message, so we don't
+                    #immediately process it again.
+                    c = db_conn.cursor()
+                    c.execute("""UPDATE alot
                                     SET processed=FALSE, status=%s
-                                    WHERE ID=%s""", 
-                                    (str(e), alot_id))
-                        c.close()
-                      
-                    else:
-                        #no exception, set it to processed and add on the data
-                        log.debug("successfully processed %s", r[1])
-                        
-                        # point the db at the image
-                        c = db_conn.cursor()
-                        c.execute("""UPDATE alot
+                                    WHERE ID=%s""",
+                              (str(e), alot_id))
+                    c.close()
+
+                else:
+                    #no exception, set it to processed and add on the data
+                    log.debug("successfully processed %s", r[1])
+
+                    # point the db at the image
+                    c = db_conn.cursor()
+                    c.execute("""UPDATE alot
                                      SET processed=TRUE, 
                                         alot_img=%s
                                      WHERE ID=%s""",
-                                     (alot_path, alot_id))
-                        c.close()
-                      
-                    db_conn.commit()
+                              (alot_path, alot_id))
+                    c.close()
+
+                db_conn.commit()
         else:
             #no work to be found.
             #give it one second so we don't thrash the system.
             time.sleep(1)
 
-class QuoteConfigParser(ConfigParser.ConfigParser):
 
+class QuoteConfigParser(ConfigParser.ConfigParser):
     def get(self, section, option, default=None):
         if not self.has_option(section, option):
             return default
@@ -154,18 +157,19 @@ class QuoteConfigParser(ConfigParser.ConfigParser):
                 return val.strip("'")
             else:
                 return val
-                
-if __name__=='__main__':
+
+
+if __name__ == '__main__':
     # pop up a level
     os.chdir('..');
 
     #read our configs
     conf = QuoteConfigParser()
     conf.read('config/app.ini')
-    
+
     #set up logging at level default as the, uh, default.
     logging.basicConfig(level=conf.get('main', 'log_level'))
-    
+
     # configure the alot maker
     maker = AlotMaker(
         conf.get("maker", "overlay"),
@@ -173,16 +177,16 @@ if __name__=='__main__':
         conf.getint("maker", "tiles_across"),
         conf.get("maker", "logo_text"),
         conf.getint("maker", "max_tile_size"))
-    
+
     # connect to the database
     conn = MySQLdb.connect(
         host=conf.get("db", "host"),
         db=conf.get("db", "database"),
         user=conf.get("db", "username"),
         passwd=conf.get("db", "password"))
-    
+
     destination = conf.get("maker", "destination")
-    
+
     #go go go
     run_forever(conn, maker, destination)
 
