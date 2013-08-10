@@ -15,14 +15,14 @@ class DB {
         }
     }
 
-    public function insert_alot($word, $image, $alot_img) {
-        $stmt = $this->conn->prepare("INSERT INTO alot (word,image,alot_img) VALUES (:word,:image,:alot_img)");
+    public function insert_alot($word, $image, $composed_url) {
+        $stmt = $this->conn->prepare("INSERT INTO alot (word,image,composed_url) VALUES (:word,:image,:composed_url)");
         if (!$stmt) {
             trigger_error('Unable to prepare insert_alot', E_USER_ERROR);
             return FALSE;
         }
         
-        if (!$stmt->execute(array(':word'  => $word, ':image' => $image, ':alot_img' => $alot_img))) {
+        if (!$stmt->execute(array(':word'  => $word, ':image' => $image, ':composed_url' => $composed_url))) {
             return FALSE;
         }
         
@@ -30,7 +30,7 @@ class DB {
     }
     
     public function get_alot($id) {
-        $stmt = $this->conn->prepare("SELECT word, image, alot_img FROM alot WHERE id=:id");
+        $stmt = $this->conn->prepare("SELECT word, image, composed_url FROM alot WHERE id=:id");
         if (!$stmt) {
             trigger_error('Unable to prepare get_alot', E_USER_ERROR);
             return FALSE;

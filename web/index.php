@@ -46,7 +46,7 @@ if (isset($_GET['id'])) {
             $config->error(404, 'alot not found');
         } else {
             //And alot data
-            $alot_img = $row['alot_img'];
+            $composed_url = $row['composed_url'];
             $word = htmlentities($row['word']);
             if (!$word) {
                 $config->error(404, 'alot not found!');
@@ -90,7 +90,7 @@ if (isset($_GET['id'])) {
             
             <?php
                 //Show a custom alot
-                show_alot($id, $alot_img, $word);
+                show_alot($id, $composed_url, $word);
             } else { 
                 //Show the alot splash image
             ?>
