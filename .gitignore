@@ -4,3 +4,6 @@
 
 /web/alots/*.png
 /maker/venv
+
+/.idea
+*.iml
