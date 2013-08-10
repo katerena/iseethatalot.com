@@ -31,3 +31,8 @@ destination = "web/alots/"
 logo_text = "ISEETHATALOT.COM"
 max_tile_size = 5242880 
 ;this is 5 MB
+
+[aws]
+aws_access_key_id = "your_access_key_here"
+aws_secret_access_key = "your_secret_key_here"
+bucket = "your bucket name"

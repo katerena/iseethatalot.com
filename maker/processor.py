@@ -11,6 +11,9 @@ import time
 import urllib2
 import math
 import ConfigParser
+import s3
+
+from cStringIO import StringIO
 
 #ain't no party like a third party
 import MySQLdb
@@ -46,7 +49,7 @@ class TempImageFile(object):
         os.unlink(self.file_path)
 
 
-def run_forever(db_conn, maker, destination='.'):
+def run_forever(db_conn, maker, saver):
     """ridiculously-unscalble solution.  Reads off the db to see what's not been
         processed, and runs those.  Note that you should only run one of these
         at a time to avoid having more than one machine pick up the same work.
@@ -68,12 +71,12 @@ def run_forever(db_conn, maker, destination='.'):
           to retry automatically, anyway.
     """
 
-    log.debug("running forever...")
+    log.info("monitoring alot of alots...")
     while True:
         #check for unprocessed stuffs which have no error messages
         c = db_conn.cursor()
         c.execute("""SELECT ID, image, added, word
-                    FROM alot WHERE alot_img IS NULL
+                    FROM alot WHERE composed_url IS NULL
                         AND processed = FALSE
                         AND status IS NULL
                     ORDER BY added ASC""")
@@ -92,20 +95,24 @@ def run_forever(db_conn, maker, destination='.'):
                 date_added = r[2]
                 alot_word = r[3]
 
-                log.debug("processing %s for alot of %s", base_image_url, alot_word)
+                log.info("processing #%s, alot of %s, at %s", str(alot_id), alot_word, base_image_url)
 
                 try:
                     #call out to download and resize the image
                     alot_image = maker.process(base_image_url, alot_word)
 
                     # save the image somewhere
-                    alot_path = "%s/alot_%d.png" % (destination, alot_id)
-                    alot_image.save(alot_path)
+                    alot_path = "alot_%d.png" %(alot_id)
+
+                    image_file = StringIO()
+                    alot_image.save(image_file, format="PNG")
+
+                    alot_url = saver.save_png(alot_path, image_file.getvalue())
 
                 except ProcessError as e:
                     #we had a handled error, set the error message to the
                     #exception message and flag it as processed.
-                    log.info("caught handled error: %s", e)
+                    log.warn("caught handled error: %s", e)
                     c = db_conn.cursor()
                     c.execute("""UPDATE alot
                                    SET processed=TRUE, status=%s
@@ -127,15 +134,16 @@ def run_forever(db_conn, maker, destination='.'):
 
                 else:
                     #no exception, set it to processed and add on the data
-                    log.debug("successfully processed %s", r[1])
+                    log.info("successfully processed")
 
                     # point the db at the image
                     c = db_conn.cursor()
                     c.execute("""UPDATE alot
                                      SET processed=TRUE, 
-                                        alot_img=%s
+                                        composed_url=%s,
+                                        composed_path=%s
                                      WHERE ID=%s""",
-                              (alot_path, alot_id))
+                              (alot_url, alot_path, alot_id))
                     c.close()
 
                 db_conn.commit()
@@ -185,8 +193,14 @@ if __name__ == '__main__':
         user=conf.get("db", "username"),
         passwd=conf.get("db", "password"))
 
-    destination = conf.get("maker", "destination")
+    destination_path = conf.get("maker", "destination_path")
+    destination_url = conf.get("maker", "destination_url")
+
+    access_key = conf.get("aws", "aws_access_key_id")
+    secret_key = conf.get("aws", "aws_secret_access_key")
+    bucket_name = conf.get("aws", "bucket")
+    s3_saver = s3.S3_saver(access_key, secret_key, bucket_name)
 
     #go go go
-    run_forever(conn, maker, destination)
+    run_forever(conn, maker, s3_saver)
 
