@@ -1,13 +1,19 @@
+[main]
 app_path = "post_domain_path_goes_here"
+log_level = DEBUG
 
 [default]
 word = "something"
 image = "http://happybirthdaygordo.com/neutral-its-something-l.png"
 
 [db]
-dsn = "mysql:host=localhost;dbname=alot_db"
-username = "alot_username"
-password = "alot_password"
+; PHP PDO can use a DSN
+dsn = "mysql:host=localhost;dbname=database_name"
+username = "database_user"
+password = "password"
+; we have this redundant info for python
+host = "localhost"
+database = "database_name"
 
 [curate]
 username = "admin"
@@ -15,3 +21,13 @@ password = "curator_password"
 
 [ga]
 code = "UA-XXXXXXXX-X"
+
+[maker]
+; directories relative to the project root
+tiles_across = 5
+overlay = "maker/resources/alot_mask.png"
+font = "maker/resources/fonts/SourceSansPro-Regular.otf"
+destination = "web/alots/"
+logo_text = "ISEETHATALOT.COM"
+max_tile_size = 5242880 
+;this is 5 MB

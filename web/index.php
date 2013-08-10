@@ -147,7 +147,7 @@ if (isset($_GET['id'])) {
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
 (function() {
-    var ALOT_REFRESH_INTERVAL = 5000;
+    var ALOT_REFRESH_INTERVAL = 2500;
     var PLACEHOLDER_SELECTOR = '.generating';
     var ALOT_SELECTOR = '.alot';
     var ALOT_URL = 'this_alot.php';

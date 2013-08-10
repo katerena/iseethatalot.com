@@ -55,8 +55,8 @@ class Config {
     public function root_url() {
         return 'http://' . 
             $_SERVER['HTTP_HOST'] . '/' . 
-            $this->config['app_path'] .
-            ($this->config['app_path'] ? '/' : '');
+            $this->config['main']['app_path'] .
+            ($this->config['main']['app_path'] ? '/' : '');
     }
     
     public function alot_url($alot_id) {

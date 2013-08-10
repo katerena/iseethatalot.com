@@ -1,2 +1,6 @@
 *.ini
 *~
+*.pyc
+
+/web/alots/*.png
+/maker/venv
