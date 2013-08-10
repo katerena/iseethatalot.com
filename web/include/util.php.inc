@@ -64,6 +64,6 @@ class Config {
     }
 }
 
-function read_config($file='config/app.ini') {
+function read_config($file='../config/app.ini') {
     return new Config(parse_ini_file($file, TRUE));
 }
