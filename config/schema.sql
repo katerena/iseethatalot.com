@@ -4,7 +4,7 @@ CREATE TABLE `alot` (
   `image` text,
   `added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `verified` timestamp NULL DEFAULT NULL,
-  `curator_rating` int(11) NOT NULL DEFAULT '0',
+  `curator_rating` int(11) NULL DEFAULT NULL,
   `up_votes` int(11) NOT NULL DEFAULT '0',
   `down_votes` int(11) NOT NULL DEFAULT '0',
   `composed_url` text,
