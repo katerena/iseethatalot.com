@@ -83,9 +83,9 @@ def run_forever(db_conn, maker, saver):
         results = c.fetchall()
         c.close()
 
-        if len(results):
+        log.debug("found %s to process", len(results))
 
-            log.debug("found %s to process", len(results))
+        if len(results):
 
             # we have some to process, run through them
             # in FIFO order.
@@ -147,10 +147,9 @@ def run_forever(db_conn, maker, saver):
                     c.close()
 
                 db_conn.commit()
-        else:
-            #no work to be found.
-            #give it one second so we don't thrash the system.
-            time.sleep(1)
+
+        #give it one second so we don't thrash the system.
+        time.sleep(1)
 
 
 class QuoteConfigParser(ConfigParser.ConfigParser):
@@ -196,9 +195,10 @@ if __name__ == '__main__':
         user=conf.get("db", "username"),
         passwd=conf.get("db", "password"))
 
-    destination_path = conf.get("maker", "destination_path")
-    destination_url = conf.get("maker", "destination_url")
+    # without this our repetitious queries give the same results over and over
+    conn.autocommit(True)
 
+    # we save the images on Amazon S3
     access_key = conf.get("aws", "aws_access_key_id")
     secret_key = conf.get("aws", "aws_secret_access_key")
     bucket_name = conf.get("aws", "bucket")
