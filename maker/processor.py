@@ -176,7 +176,9 @@ if __name__ == '__main__':
     conf.read('config/app.ini')
 
     #set up logging at level default as the, uh, default.
-    logging.basicConfig(level=conf.get('main', 'log_level'))
+    loglevel = conf.get('main', 'log_level')
+    loglevel = getattr(logging, loglevel.upper(), None)
+    logging.basicConfig(level=loglevel)
 
     # configure the alot maker
     maker = AlotMaker(
