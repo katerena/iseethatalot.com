@@ -2,7 +2,7 @@
 //Expects to receive a db row as an associative array
 function show_alot($alot)
 {
-    $id = $alot['ID'];
+    $id = $alot['id'];
     $alot_img = $alot['composed_url'];
     $word = $alot['word'];
     $error = ($alot['processed'] == 1) && ($alot['status']);

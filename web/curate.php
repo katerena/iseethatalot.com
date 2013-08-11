@@ -52,7 +52,7 @@ if ($alots === FALSE) {
 	<table class="table">
 	
 	<tr>
-		<th>ID</th>
+		<th>id</th>
 		<th>Date</th>
 		<th>Alot of...</th>
 		<th>Awesomeness</th>
@@ -60,15 +60,15 @@ if ($alots === FALSE) {
 	
 	<?php
 	foreach ($alots as $alot) {
-        $id = $alot['ID'];
+        $id = $alot['id'];
         $alot_url = $config->alot_url($id);
         $composed_url = $alot['composed_url'];
         $word = htmlentities($alot['word']);
         ?>
-	<tr data-id="<?php echo $alot['ID']?>">
+	<tr data-id="<?php echo $alot['id']?>">
 		<td>
             <a target="_blank" href="<?php echo $alot_url ?>">
-                <?php echo $alot['ID'] ?>
+                <?php echo $alot['id'] ?>
             </a>
         </td>
 		<td><?php echo $alot['added'] ?></td>

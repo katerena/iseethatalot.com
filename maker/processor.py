@@ -75,7 +75,7 @@ def run_forever(db_conn, maker, saver):
     while True:
         #check for unprocessed stuffs which have no error messages
         c = db_conn.cursor()
-        c.execute("""SELECT ID, image, added, word
+        c.execute("""SELECT id, image, added, word
                     FROM alot WHERE composed_url IS NULL
                         AND processed = FALSE
                         AND status IS NULL
@@ -116,7 +116,7 @@ def run_forever(db_conn, maker, saver):
                     c = db_conn.cursor()
                     c.execute("""UPDATE alot
                                    SET processed=TRUE, status=%s
-                                   WHERE ID=%s""",
+                                   WHERE id=%s""",
                               (str(e), alot_id))
                     c.close()
 
@@ -128,7 +128,7 @@ def run_forever(db_conn, maker, saver):
                     c = db_conn.cursor()
                     c.execute("""UPDATE alot
                                     SET processed=FALSE, status=%s
-                                    WHERE ID=%s""",
+                                    WHERE id=%s""",
                               (str(e), alot_id))
                     c.close()
 
@@ -142,7 +142,7 @@ def run_forever(db_conn, maker, saver):
                                      SET processed=TRUE, 
                                         composed_url=%s,
                                         composed_path=%s
-                                     WHERE ID=%s""",
+                                     WHERE id=%s""",
                               (alot_url, alot_path, alot_id))
                     c.close()
 
