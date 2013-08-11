@@ -79,9 +79,11 @@ if (isset($_GET['id'])) {
 </HEAD>
 <BODY>
 
-    <div id="header">
-        <div class="container">
-            <A class="brand" href="<?php echo $config->root_url() ?>">ISEETHATALOT.COM</A>
+    <div id="header" class="navbar navbar-fixed-top navbar-inverse">
+        <div class="navbar-inner">
+            <div class="container">
+                <A class="brand" href="<?php echo $config->root_url() ?>">ISEETHATALOT.COM</A>
+            </div>
         </div>
     </div>
 
@@ -118,25 +120,27 @@ if (isset($_GET['id'])) {
             </div>
 
             <DIV id="howIsAlotFormed" class="span6">
-                <DIV class="prefix">
-                    Do you observe <del>a lot</del> alot of something?
-                    <a class="muted" href="http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html" target="_blank">What is an alot?</a>
-                </DIV>
-                <FORM METHOD="POST">
-                    <DIV class="input-boxes">
-                        <INPUT class="word-input" type="text" name="word" placeholder="what do you see alot of?"/>
-                        <INPUT class="image-input" type="text"  name="image" placeholder="paste an image URL here"/>
+                <div class="padding-box">
+                    <DIV class="prefix">
+                        Do you observe <del>a lot</del> alot of something?
+                        <a class="muted" href="http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html" target="_blank">What is an alot?</a>
                     </DIV>
-                    <BUTTON type="submit" class="btn make-alot-button btn-primary btn-large">make this alot</button>
-                </FORM>
-                <p class="muted credit">
-                    iseethatalot.com created by
-                    <a href="http://twitter.com/mjbrks">@mjbrks</a>/<a href="http://students.washington.edu/mjbrooks">michael</a>
-                    and
-                    <a href="http://twitter.com/anachrobot">@anachrobot</a>/<a href="http://anachrobot.us">katie</a>
-                    <br/>
-                    inspired by <a href=http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html target=_blank>hyperbole and a half / allie brosh</A>
-                </p>
+                    <FORM METHOD="POST">
+                        <DIV class="input-boxes">
+                            <INPUT class="word-input" type="text" name="word" placeholder="what do you see alot of?"/>
+                            <INPUT class="image-input" type="text"  name="image" placeholder="paste an image URL here"/>
+                        </DIV>
+                        <BUTTON type="submit" class="btn make-alot-button btn-primary btn-large">make this alot</button>
+                    </FORM>
+                    <p class="muted credit">
+                        iseethatalot.com created by
+                        <a href="http://twitter.com/mjbrks">@mjbrks</a>/<a href="http://students.washington.edu/mjbrooks">michael</a>
+                        and
+                        <a href="http://twitter.com/anachrobot">@anachrobot</a>/<a href="http://anachrobot.us">katie</a>
+                        <br/>
+                        inspired by <a href=http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html target=_blank>hyperbole and a half / allie brosh</A>
+                    </p>
+                </div>
             </DIV>
 <!--        <DIV id="top-rated" class="alot-list span3">-->
 <!--            <h4>Alot Better</h4>-->

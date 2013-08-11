@@ -1,41 +1,28 @@
-#header {
-    margin: 0;
-    background: #333;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 0 6px;
-    height: 40px;
-    line-height: 40px;
-    font-size: 36px;
+
+#navbar .navbar-inner {
+    background: #222;
 }
+
 #header .brand {
-    color: #eee;
-    text-decoration: none;
+    color: #ccc;
 }
 #header .brand:hover {
-    color: #fff;
+    color: #eee;
 }
 
 #main-content {
-    margin-top: 40px;
+    margin-top: 60px;
 }
 
 @media (max-width:979px) {
-    #header {
-        font-size: 28px;
-        line-height: 32px;
-        height: 32px;
-    }
-
     #main-content {
-        margin-top: 32px;
+        margin-top: 0;
     }
 }
 
-#thisAlot, #howIsAlotFormed {
-    margin-top: 20px;
+#thisAlot {
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 @media (min-width: 979px) {
@@ -55,7 +42,11 @@
 }
 
 #howIsAlotFormed {
+    background: #fffd76;
+}
 
+#howIsAlotFormed .padding-box {
+    padding: 10px 20px;
 }
 
 #thisAlot .twitter-share-button {
@@ -130,6 +121,9 @@
     display: block;
     padding: 5px;
     width: 25%;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 
