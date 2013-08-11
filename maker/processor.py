@@ -11,7 +11,7 @@ import time
 import urllib2
 import math
 import ConfigParser
-import s3
+import saver
 
 from cStringIO import StringIO
 
@@ -203,9 +203,9 @@ if __name__ == '__main__':
     access_key = conf.get("saver", "aws_access_key_id")
     secret_key = conf.get("saver", "aws_secret_access_key")
     if access_key:
-        saver = s3.S3_saver(access_key, secret_key, bucket_name)
+        saver = saver.S3_saver(access_key, secret_key, bucket_name)
     else:
-        saver = s3.Disk_saver(bucket_name)
+        saver = saver.Disk_saver(bucket_name)
 
     #go go go
     run_forever(conn, maker, saver)

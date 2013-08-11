@@ -30,11 +30,15 @@ class Disk_saver(object):
 
         self.diskPath = 'web/tmp/%s' %(bucket)
         self.urlPrefix = 'tmp/%s' %(bucket)
-        os.makedirs('web/tmp/%s' %(bucket))
+
+        try:
+            os.makedirs('web/tmp/%s' %(bucket))
+        except os.error:
+            log.info("Directory already exists. Continuing.")
 
     def save_png(self, keyString, valueString):
-        url = self.urlPrefix + '/' + keyString;
-        path = self.diskPath + '/' + keyString;
+        url = self.urlPrefix + '/' + keyString
+        path = self.diskPath + '/' + keyString
 
         with open(path, 'wb') as output:
             output.write(valueString)
