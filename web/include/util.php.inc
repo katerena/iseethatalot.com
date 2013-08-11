@@ -68,7 +68,7 @@ class Config {
         $now = new DateTime();
         $diff = $now->diff($date);
         if ($diff->days < 1) {
-            return $date->format("h:ma, M d");
+            return $date->format("g:ma, M d");
         } else {
             return $date->format("M d");
         }
