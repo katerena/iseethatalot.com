@@ -90,28 +90,31 @@ if (isset($_GET['id'])) {
     <DIV id="main-content" class="container">
         <div class="row">
             <div id="thisAlot" class="span6">
-            <?php if ($id) { ?>
-                <h2>alot of <?php echo $word ?></h2>
-            
-                <!-- Share alot url -->
-                Share: 
+            <?php if ($id) {
+                //Show a custom alot
+                show_alot($row);
+                ?>
+                <div class="sharing">
+                    <!-- Share alot on Twitter -->
+                    <a href="https://twitter.com/share"
+                       class="twitter-share-button"
+                       data-url="<?php echo $alot_url; ?>"
+                       data-via="seethatalot"
+                       data-text="I see #alot of <?php echo $word ?>!"
+                       title="Tweet this alot!"
+                        >Tweet</a>
+                    <!-- Twitter JS -->
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+                    <!-- Share alot url -->
+                    <span class="share-link">
+                    Share:
                     <a href="<?php echo $alot_url; ?>">
                         <?php echo $alot_url; ?>
                     </a>
-                
-                <!-- Share alot on Twitter -->
-                <a href="https://twitter.com/share" 
-                    class="twitter-share-button" 
-                    data-url="<?php echo $alot_url; ?>" 
-                    data-via="seethatalot"
-                    data-text="I see #alot of <?php echo $word ?>!"
-                    >Tweet</a>
-                <!-- Twitter JS -->
-                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-            
-            <?php
-                //Show a custom alot
-                show_alot($row);
+                    </span>
+                </div>
+                <?php
             } else { 
                 //Show the alot splash image
             ?>
@@ -171,7 +174,12 @@ if (isset($_GET['id'])) {
 
     <div id="footer">
         <div class="container">
-
+            Created with
+            <a target="_blank" href="http://php.net/">PHP</a>,
+            <a target="_blank" href="http://python.org/">Python</a>,
+            and
+            <a target="_blank" href="http://getbootstrap.com/">Twitter Bootstrap</a>.
+            <a target="_blank" href="http://github.com/katiek/iseethatalot.com">Check us out on GitHub</a>.
         </div>
     </div>
 
