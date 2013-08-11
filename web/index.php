@@ -121,8 +121,8 @@ if (isset($_GET['id'])) {
                     of something?
                 </DIV>
                 <DIV class="input-boxes">
-                    <INPUT type="text" name="word" placeholder="what is there alot of?" />	
-                    <INPUT type="text"  name="image" placeholder="image URL to tile alot" />
+                    <INPUT class="word-input" type="text" name="word" placeholder="what do you see alot of?"/>
+                    <INPUT class="image-input" type="text"  name="image" placeholder="paste an image URL here"/>
                 </DIV>
                 <INPUT type="submit" value="make this alot" class="btn make-alot-button btn-primary btn-large" />
             </FORM>
@@ -198,6 +198,27 @@ if (isset($_GET['id'])) {
             ALOT_ID = generatingMsg.data('alot-id');
             scheduleRefresh();
         }
+
+        var imageInput = $('.image-input');
+        var wordInput = $('.word-input');
+
+        $('form').on('submit', function(e) {
+            var imageUrl = $.trim(imageInput.val());
+            var word = $.trim(wordInput.val());
+
+            if (!imageUrl) {
+                imageInput.focus();
+            }
+
+            if (!word) {
+                wordInput.focus();
+            }
+
+            if (!imageUrl || !word) {
+                e.preventDefault();
+                return false;
+            }
+        });
     });
 })();
 </script>
