@@ -62,6 +62,20 @@ if (isset($_GET['id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <LINK type='text/css' rel='stylesheet' href='css/styles.css' />
+
+    <meta name="description" content="Do you see alot of something?">
+    <meta property="og:description" content="Do you see alot of something?">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@seethatalot">
+    <meta name="twitter:domain" content="iseethatalot.com">
+    <?php if ($id) { ?>
+        <meta property="og:title" content="ALOT OF <?php echo $word ?>">
+        <meta property="og:image" content="<?php echo $composed_url ?>">
+    <?php } else { ?>
+        <meta property="og:title" content="I SEE THAT ALOT">
+        <meta property="og:image" content="<?php echo $config->root_url() ?>img/alots/default.png">
+    <?php } ?>
 </HEAD>
 <BODY>
 
