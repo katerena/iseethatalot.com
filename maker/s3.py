@@ -1,3 +1,4 @@
+import os
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 
@@ -22,3 +23,20 @@ class S3_saver(object):
         # a non-expiring URL
         return key.generate_url(expires_in=0, query_auth=False)
 
+class Disk_saver(object):
+
+    def __init__(self, bucket):
+        log.info('Making alot directory')
+
+        self.diskPath = 'web/tmp/%s' %(bucket)
+        self.urlPrefix = 'tmp/%s' %(bucket)
+        os.makedirs('web/tmp/%s' %(bucket))
+
+    def save_png(self, keyString, valueString):
+        url = self.urlPrefix + '/' + keyString;
+        path = self.diskPath + '/' + keyString;
+
+        with open(path, 'wb') as output:
+            output.write(valueString)
+
+        return url

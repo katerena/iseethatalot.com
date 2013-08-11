@@ -199,11 +199,14 @@ if __name__ == '__main__':
     conn.autocommit(True)
 
     # we save the images on Amazon S3
-    access_key = conf.get("aws", "aws_access_key_id")
-    secret_key = conf.get("aws", "aws_secret_access_key")
-    bucket_name = conf.get("aws", "bucket")
-    s3_saver = s3.S3_saver(access_key, secret_key, bucket_name)
+    bucket_name = conf.get("saver", "bucket")
+    access_key = conf.get("saver", "aws_access_key_id")
+    secret_key = conf.get("saver", "aws_secret_access_key")
+    if access_key:
+        saver = s3.S3_saver(access_key, secret_key, bucket_name)
+    else:
+        saver = s3.Disk_saver(bucket_name)
 
     #go go go
-    run_forever(conn, maker, s3_saver)
+    run_forever(conn, maker, saver)
 

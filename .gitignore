@@ -2,7 +2,7 @@
 *~
 *.pyc
 
-/web/alots/*.png
+/web/tmp
 /maker/venv
 
 /.idea
