@@ -173,10 +173,10 @@ if (isset($_GET['id'])) {
                         </div>
                         <div class="rating-buttons">
                             <button type="button" class="btn up-vote" value="1">
-                                <i class="icon-thumbs-up"></i>
+                                <i class="icon-thumbs-up"></i> <?php echo $alot['up_votes'] ?>
                             </button>
                             <button type="button" class="btn down-vote" value="-1">
-                                <i class="icon-thumbs-down"></i>
+                                <i class="icon-thumbs-down"></i> <?php echo $alot['down_votes'] ?>
                             </button>
                         </div>
                         <span class="added-date">
