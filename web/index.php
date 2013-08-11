@@ -70,7 +70,7 @@ if (isset($_GET['id'])) {
     <meta name="twitter:site" content="@seethatalot">
     <meta name="twitter:domain" content="iseethatalot.com">
     <?php if ($id) { ?>
-        <meta property="og:title" content="ALOT OF <?php echo $word ?>">
+        <meta property="og:title" content="ALOT OF <?php echo strtoupper($word) ?>">
         <meta property="og:image" content="<?php echo $composed_url ?>">
     <?php } else { ?>
         <meta property="og:title" content="I SEE THAT ALOT">

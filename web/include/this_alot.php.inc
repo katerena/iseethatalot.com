@@ -4,7 +4,7 @@ function show_alot($alot)
 {
     $id = $alot['id'];
     $alot_img = $alot['composed_url'];
-    $word = $alot['word'];
+    $word = htmlentities($alot['word']);
     $error = ($alot['processed'] == 1) && ($alot['status']);
 
     if (!$alot_img) {
