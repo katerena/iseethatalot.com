@@ -128,9 +128,26 @@ if (isset($_GET['id'])) {
             </FORM>
         </DIV>
 
-        <DIV id="thoseAlots">
+        <DIV id="top-rated" class="alot-list clearfix">
+            <h4>Top Rated</h4>
             <?php
-            foreach ($db->get_best(5) as $alot){
+            foreach ($db->get_best() as $alot){
+                $link_url = $config->alot_url($alot['id']);
+                echo "<a href='$link_url'>";
+                show_alot($alot);
+                echo '</a>';
+            }
+            ?>
+        </DIV>
+
+        <DIV id="most-recent" class="alot-list clearfix">
+            <h4>Latest</h4>
+            <?php
+            foreach ($db->get_alots() as $alot){
+                $link_url = $config->alot_url($alot['id']);
+                echo "<a href='$link_url'>";
+                show_alot($alot);
+                echo '</a>';
             }
             ?>
         </DIV>

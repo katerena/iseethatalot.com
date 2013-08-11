@@ -45,13 +45,30 @@ class DB {
         return $stmt->fetch();
     }
     
-    public function get_best($top_n) {
-        //TODO return top-curated alots!
-        return array();
+    public function get_best($from=0, $count=5) {
+        $stmt = $this->conn->prepare('SELECT * FROM alot
+                                        WHERE composed_url IS NOT NULL
+                                        ORDER BY curator_rating DESC,
+                                            verified DESC
+                                        LIMIT :from, :count');
+        if (!$stmt) {
+            trigger_error('Unable to prepare get_alots', E_USER_ERROR);
+            return FALSE;
+        }
+
+        $stmt->bindParam(':from', $from, PDO::PARAM_INT);
+        $stmt->bindParam(':count', $count, PDO::PARAM_INT);
+        if (!$stmt->execute()) {
+            $err = $stmt->errorInfo();
+            trigger_error($err[2], E_USER_WARNING);
+            return FALSE;
+        }
+
+        return $stmt->fetchAll();
     }
     
     public function set_alot_rating($id, $rating) {
-        $stmt = $this->conn->prepare('UPDATE alot SET curator_rating=:rating WHERE id=:id');
+        $stmt = $this->conn->prepare('UPDATE alot SET curator_rating=:rating, verified=NOW() WHERE id=:id');
         if (!$stmt) {
             trigger_error('Unable to prepare set_alot_rating', E_USER_ERROR);
             return FALSE;
@@ -63,8 +80,11 @@ class DB {
         ));
     }
     
-    public function get_alots($from=0, $count=100) {
-        $stmt = $this->conn->prepare('SELECT * FROM alot ORDER BY added DESC LIMIT :from, :count');
+    public function get_alots($from=0, $count=5) {
+        $stmt = $this->conn->prepare('SELECT * FROM alot
+                                        WHERE composed_url IS NOT NULL
+                                        ORDER BY added DESC
+                                        LIMIT :from, :count');
         if (!$stmt) {
             trigger_error('Unable to prepare get_alots', E_USER_ERROR);
             return FALSE;

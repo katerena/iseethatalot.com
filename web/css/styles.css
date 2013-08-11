@@ -81,3 +81,12 @@
 	height: 70px;
 	float: left;
 }
+.alot-list {
+    margin: 10px 0;
+}
+
+.alot-list .alot {
+    display: block;
+    width: 290px;
+    margin-top: 10px;
+}
