@@ -99,8 +99,10 @@ class DB {
     }
     
     public function get_alots($from=0, $count=5) {
+        //Alots with no errors and no 0 curator rating
         $stmt = $this->conn->prepare('SELECT * FROM alot
                                         WHERE composed_url IS NOT NULL
+                                        AND curator_rating != 0
                                         ORDER BY added DESC
                                         LIMIT :from, :count');
         if (!$stmt) {
