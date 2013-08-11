@@ -79,11 +79,13 @@ if ($alots === FALSE) {
 		</td>
 		<td>
 			<div class="btn-group">
-				<button type='button' class="btn rating-button" value="1">1</button>
-				<button type='button' class="btn rating-button" value="2">2</button>
-				<button type='button' class="btn rating-button" value="3">3</button>
-				<button type='button' class="btn rating-button" value="4">4</button>
-				<button type='button' class="btn rating-button" value="5">5</button>
+                <?php foreach(range(1, 5) as $rating) { ?>
+                    <button type='button'
+                            class="btn rating-button <?php echo $alot['curator_rating'] == $rating ? 'active' : '' ?>"
+                            value="<?php echo $rating ?>">
+                        <?php echo $rating ?>
+                    </button>
+                <?php } ?>
 			</div>
 		</td>
 	</tr>
