@@ -14,7 +14,7 @@ function show_alot($alot)
                 <div class="message muted">
                     Alas, there was problem with your alot :( :( :(
                     <br/>
-                    Maybe your selected image was bad.
+                    Try pointing us to a different image URL.
                 </div>
             </div>
         <?php
