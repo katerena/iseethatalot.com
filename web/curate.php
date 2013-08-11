@@ -33,22 +33,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	die();
 }
 
-$alots = $db->get_alots();
+$page = 0;
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+}
+$pageSize = 20;
+$alots = $db->all_alots($page * $pageSize, $pageSize);
 if ($alots === FALSE) {
     $config->error(404, 'No more alots');
 }
 
+function paging_controls($page) { ?>
+    <h4 class="paging clearfix">
+        <?php if ($page > 0) {?>
+            <a class="btn pull-left" href="curate.php?page=<?php echo $page - 1 ?>">Previous page</a>
+        <?php } ?>
+        <a class="btn pull-right" href="curate.php?page=<?php echo $page + 1 ?>">Next page</a>
+    </h4>
+<?php
+}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Alot of content</title>
 	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <style>
+        h1 a {
+            color: #333;
+        }
+        .paging {
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+	<h1><a href="curate.php">Curate content</a></h1>
+	<h4>A rating of 1/5 will hide an alot from the front page.</h4>
 
-	<h1>Curate content</h1>
-	
+    <?php paging_controls($page) ?>
+
 	<table class="table">
 	
 	<tr>
@@ -91,7 +116,8 @@ if ($alots === FALSE) {
 	</tr>
 	<?php } ?>
 	</table>
-
+    <?php paging_controls($page) ?>
+</div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {

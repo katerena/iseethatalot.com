@@ -97,12 +97,33 @@ class DB {
             ':id' => $id
         ));
     }
-    
+
+    public function all_alots($from=0, $count=100) {
+        //Alots with no errors and no 0 curator rating
+        $stmt = $this->conn->prepare('SELECT * FROM alot
+                                        ORDER BY added DESC
+                                        LIMIT :from, :count');
+        if (!$stmt) {
+            trigger_error('Unable to prepare all_alots', E_USER_ERROR);
+            return FALSE;
+        }
+
+        $stmt->bindParam(':from', $from, PDO::PARAM_INT);
+        $stmt->bindParam(':count', $count, PDO::PARAM_INT);
+        if (!$stmt->execute()) {
+            $err = $stmt->errorInfo();
+            trigger_error($err[2], E_USER_WARNING);
+            return FALSE;
+        }
+
+        return $stmt->fetchAll();
+    }
+
     public function get_alots($from=0, $count=5) {
         //Alots with no errors and no 0 curator rating
         $stmt = $this->conn->prepare('SELECT * FROM alot
                                         WHERE composed_url IS NOT NULL
-                                        AND curator_rating != 0
+                                        AND (curator_rating IS NULL OR curator_rating != 1)
                                         ORDER BY added DESC
                                         LIMIT :from, :count');
         if (!$stmt) {
