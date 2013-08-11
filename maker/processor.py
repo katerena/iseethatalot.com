@@ -189,6 +189,7 @@ if __name__ == '__main__':
     # connect to the database
     conn = MySQLdb.connect(
         host=conf.get("db", "host"),
+        port=conf.getint("db", "port"),
         db=conf.get("db", "database"),
         user=conf.get("db", "username"),
         passwd=conf.get("db", "password"))

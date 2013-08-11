@@ -14,6 +14,7 @@ password = "password"
 ; we have this redundant info for python
 host = "localhost"
 database = "database_name"
+port = 3306
 
 [curate]
 username = "admin"
