@@ -110,7 +110,7 @@ class AlotMaker(object):
         # add some text
         # these positions are magic
         logoTextMargin = (3, 3)
-        labelTextMargin = (8, 25)
+        labelTextMargin = (8, 15)
 
         labelTextSize = labelFont.getsize(labelText)
         labelTextPosition = (targetSize[0] - labelTextSize[0] - labelTextMargin[0], labelTextMargin[1])
