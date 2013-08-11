@@ -34,12 +34,21 @@
 	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
 }
 
-#thisAlot .alot.generating {
+#thisAlot .alot.generating, #thisAlot .alot.error {
     height: 294px;
     width: 400px;
-    line-height: 294px;
+    position: relative;
+}
+
+#thisAlot .alot .message {
     font-weight: bold;
     font-size: 16px;
+    line-height: 25px;
+
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    width: 100%;
 }
 
 #thisAlot h2 {

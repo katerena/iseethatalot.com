@@ -22,15 +22,8 @@ if ($id) {
     if ($row === FALSE) {
         $config->error(404, 'alot not found');
     } else {
-        //And alot data
-        $alot_img = $row['alot_img'];
-        $word = htmlentities($row['word']);
-        if (!$word) {
-            $config->error(404, 'alot not found!');
-        }
+        show_alot($row);
     }
-
-    show_alot($id, $alot_img, $word);
 } else {
     echo 'Which alot!?!? THERE ARE SO MANY!';
 }

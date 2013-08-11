@@ -90,7 +90,7 @@ if (isset($_GET['id'])) {
             
             <?php
                 //Show a custom alot
-                show_alot($id, $composed_url, $word);
+                show_alot($row);
             } else { 
                 //Show the alot splash image
             ?>

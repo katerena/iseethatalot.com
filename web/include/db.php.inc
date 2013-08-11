@@ -30,7 +30,7 @@ class DB {
     }
     
     public function get_alot($id) {
-        $stmt = $this->conn->prepare("SELECT word, image, composed_url FROM alot WHERE id=:id");
+        $stmt = $this->conn->prepare("SELECT * FROM alot WHERE id=:id");
         if (!$stmt) {
             trigger_error('Unable to prepare get_alot', E_USER_ERROR);
             return FALSE;

@@ -1,5 +1,6 @@
 <?php
-include 'include/util.php.inc';
+include_once 'include/util.php.inc';
+include_once 'include/this_alot.php.inc';
 
 $config = read_config();
 $db = $config->mkdb();
@@ -59,12 +60,22 @@ if ($alots === FALSE) {
 	
 	<?php
 	foreach ($alots as $alot) {
-	?>
+        $id = $alot['ID'];
+        $alot_url = $config->alot_url($id);
+        $composed_url = $alot['composed_url'];
+        $word = htmlentities($alot['word']);
+        ?>
 	<tr data-id="<?php echo $alot['ID']?>">
-		<td><?php echo $alot['ID'] ?></td>
+		<td>
+            <a target="_blank" href="<?php echo $alot_url ?>">
+                <?php echo $alot['ID'] ?>
+            </a>
+        </td>
 		<td><?php echo $alot['added'] ?></td>
 		<td>
-			<EMBED src='svg.php?src=<?php echo htmlentities($alot['image'])?>&word=<?php echo htmlentities($alot['word'])?>'  type="image/svg+xml" />
+            <?php
+            show_alot($alot);
+            ?>
 		</td>
 		<td>
 			<div class="btn-group">
