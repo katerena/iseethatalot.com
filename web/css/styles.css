@@ -1,34 +1,68 @@
-
-.container {
-	width: 600px;
+#header {
+    margin: 0;
+    background: #333;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0 6px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 36px;
 }
-
-#brand {
-	font-size: 38.5px;
-	line-height: 40px;
-	margin: 40px 0 20px 0;
-}
-
-#brand a {
-    color: #333;
+#header .brand {
+    color: #eee;
     text-decoration: none;
 }
+#header .brand:hover {
+    color: #fff;
+}
 
-#thisAlot {
-	width: 400px;
-	margin:auto;
-    text-align: center;
+#main-content {
+    margin-top: 40px;
+}
+
+@media (max-width:979px) {
+    #header {
+        font-size: 28px;
+        line-height: 32px;
+        height: 32px;
+    }
+
+    #main-content {
+        margin-top: 32px;
+    }
+}
+
+#thisAlot, #howIsAlotFormed {
+    margin-top: 20px;
+}
+
+@media (min-width: 979px) {
+    #thisAlot {
+        width: auto;
+    }
+
+    #howIsAlotFormed {
+        width: 520px;
+    }
+}
+
+@media (min-width: 1200px) {
+    #howIsAlotFormed {
+        width: 740px;
+    }
+}
+
+#howIsAlotFormed {
+
 }
 
 #thisAlot .twitter-share-button {
 	float: right;
 }
 
-#thisAlot .alot {
-	clear: both;
-	margin: 20px 0;
-	float: left;
-	
+.alot {
 	-moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
 	-webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
 	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
@@ -55,38 +89,74 @@
     font-size: 23px;
 }
 
-#howIsAlotFormed {
-	clear: both;
-}
-
 #howIsAlotFormed .prefix {
 	font-size: 20px;
 	line-height: 32px;
 }
 
+#howIsAlotFormed form {
+    position: relative;
+    margin-top: 20px;
+}
+
 .input-boxes {
-	width: 400px;
-	float: left;
 	position: relative;
-	margin: 20px 0 20px;
+	margin-right: 172px;
 }
 
 .input-boxes input {
-	width: 386px;
+	width: 100%;
 }
 
 .make-alot-button {
-	margin: 20px 0 0 20px;
-	width: 100px;
+    margin: 0;
+	width: 150px;
 	height: 70px;
-	float: left;
-}
-.alot-list {
-    margin: 10px 0;
+	position: absolute;
+    right: 0;
+    top: 0;
 }
 
-.alot-list .alot {
+.alot-list {
+    margin-top: 20px;
+}
+
+.alot-list .alot-list-item {
+    float: left;
     display: block;
-    width: 290px;
-    margin-top: 10px;
+    padding: 5px;
+    width: 25%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 979px) and (min-width: 768px) {
+    .alot-list .alot-list-item {
+        width: 33%;
+    }
+}
+
+@media (max-width: 767px) {
+    .alot-list .alot-list-item {
+        width: 50%;
+    }
+}
+
+@media (max-width: 500px) {
+    .alot-list .alot-list-item {
+        width: auto;
+    }
+}
+
+.alot-list .alot-list-item .alot {
+    border: 1px solid #fff;
+}
+
+.alot-list .alot-list-item:hover .alot {
+    border-color: #ddd;
+}
+
+@media (max-width: 767px) {
+    .alot-list {
+
+    }
 }

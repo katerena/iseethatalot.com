@@ -79,11 +79,13 @@ if (isset($_GET['id'])) {
 </HEAD>
 <BODY>
 
-    <DIV class="container">
+    <div id="header">
+        <A class="brand" href="<?php echo $config->root_url() ?>">ISEETHATALOT.COM</A>
+    </div>
 
-        <H1 id="brand"><A href="<?php echo $config->root_url() ?>">ISEETHATALOT.COM</A></H1>
-
-        <div id="thisAlot">
+    <DIV id="main-content" class="container">
+        <div class="row">
+            <div id="thisAlot" class="span6">
             <?php if ($id) { ?>
                 <h2>alot of <?php echo $word ?></h2>
             
@@ -111,47 +113,47 @@ if (isset($_GET['id'])) {
             ?>
                 <IMG class="alot" src='img/alots/default.png' />
             <?php } ?>
-        </div>
+            </div>
 
-        <DIV id="howIsAlotFormed">
-            <FORM METHOD="POST">
+            <DIV id="howIsAlotFormed" class="span6">
                 <DIV class="prefix">
-                    Do you observe <del>a lot</del> 
+                    Do you observe <del>a lot</del>
                     <a href=http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html target=_blank>alot</a>
                     of something?
                 </DIV>
-                <DIV class="input-boxes">
-                    <INPUT class="word-input" type="text" name="word" placeholder="what do you see alot of?"/>
-                    <INPUT class="image-input" type="text"  name="image" placeholder="paste an image URL here"/>
-                </DIV>
-                <INPUT type="submit" value="make this alot" class="btn make-alot-button btn-primary btn-large" />
-            </FORM>
-        </DIV>
-
-        <DIV id="top-rated" class="alot-list clearfix">
-            <h4>Top Rated</h4>
-            <?php
-            foreach ($db->get_best() as $alot){
-                $link_url = $config->alot_url($alot['id']);
-                echo "<a href='$link_url'>";
-                show_alot($alot);
-                echo '</a>';
-            }
-            ?>
-        </DIV>
-
-        <DIV id="most-recent" class="alot-list clearfix">
-            <h4>Latest</h4>
-            <?php
-            foreach ($db->get_alots() as $alot){
-                $link_url = $config->alot_url($alot['id']);
-                echo "<a href='$link_url'>";
-                show_alot($alot);
-                echo '</a>';
-            }
-            ?>
-        </DIV>
-
+                <FORM METHOD="POST">
+                    <DIV class="input-boxes">
+                        <INPUT class="word-input" type="text" name="word" placeholder="what do you see alot of?"/>
+                        <INPUT class="image-input" type="text"  name="image" placeholder="paste an image URL here"/>
+                    </DIV>
+                    <BUTTON type="submit" class="btn make-alot-button btn-primary btn-large">make this alot</button>
+                </FORM>
+            </DIV>
+<!--        <DIV id="top-rated" class="alot-list span3">-->
+<!--            <h4>Alot Better</h4>-->
+<!--            --><?php
+//            foreach ($db->get_best() as $alot){
+//                $link_url = $config->alot_url($alot['id']);
+//                echo "<a href='$link_url'>";
+//                show_alot($alot);
+//                echo '</a>';
+//            }
+//            ?>
+<!--        </DIV>-->
+        </div>
+        <div class="row">
+            <DIV id="most-recent" class="alot-list span12">
+                <h4>Seen alot recently...</h4>
+                <?php
+                foreach ($db->get_alots(0, 8) as $alot){
+                    $link_url = $config->alot_url($alot['id']);
+                    echo "<a class='alot-list-item' href='$link_url'>";
+                    show_alot($alot);
+                    echo '</a>';
+                }
+                ?>
+            </DIV>
+        </div>
     </DIV>
 
     <div id="footer">
