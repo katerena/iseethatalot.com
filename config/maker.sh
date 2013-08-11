@@ -17,14 +17,12 @@ source venv/bin/activate
 # install python packages
 pip install -r requirements.txt
 
-# make a log file
-sudo touch /tmp/alot_maker.log
+# make sure we have a fresh config
+supervisorctl -c ../config/supervisor.conf shutdown
 
 # set up the supervisor daemon
 supervisord -c ../config/supervisor.conf
 
-# make sure we have a fresh config
-supervisorctl -c ../config/supervisor.conf reread
-
 # restart the maker process
+sudo touch /tmp/alot_maker.log
 supervisorctl -c ../config/supervisor.conf restart alot_maker
