@@ -33,3 +33,14 @@ function show_alot($alot)
     <?php
     }
 }
+
+function rating_stats($alot) {
+    ?>
+    <span class="up-votes">
+            <i class="icon-thumbs-up"></i> <?php echo $alot['up_votes'] ?>
+        </span>
+    <span class="down-votes">
+        <i class="icon-thumbs-down"></i> <?php echo $alot['down_votes'] ?>
+    </span>
+    <?php
+}

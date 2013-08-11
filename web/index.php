@@ -163,11 +163,27 @@ if (isset($_GET['id'])) {
                 <?php
                 foreach ($db->get_alots(0, 8) as $alot){
                     $link_url = $config->alot_url($alot['id']);
-                    echo "<a class='alot-list-item' href='$link_url'>";
-                    show_alot($alot);
-                    echo '</a>';
-                }
-                ?>
+                    ?>
+                    <div class='alot-list-item' data-alot-id="<?php echo $alot['id'] ?>">
+                        <a href='<?php echo $link_url?>'>
+                            <?php show_alot($alot); ?>
+                        </a>
+                        <div class="rating-stats hide">
+                            <?php rating_stats($alot); ?>
+                        </div>
+                        <div class="rating-buttons">
+                            <button type="button" class="btn up-vote" value="1">
+                                <i class="icon-thumbs-up"></i>
+                            </button>
+                            <button type="button" class="btn down-vote" value="-1">
+                                <i class="icon-thumbs-down"></i>
+                            </button>
+                        </div>
+                        <span class="added-date">
+                            <?php echo $config->alot_created_time($alot); ?>
+                        </span>
+                    </div>
+                <?php } ?>
             </DIV>
         </div>
     </DIV>
@@ -225,9 +241,9 @@ if (isset($_GET['id'])) {
         });
     }
 
-    $(document).ready(function() {
+    function initAlotGeneration() {
         var generatingMsg = $(PLACEHOLDER_SELECTOR);
-        
+
         if (generatingMsg.length) {
             ALOT_ID = generatingMsg.data('alot-id');
             scheduleRefresh();
@@ -253,6 +269,63 @@ if (isset($_GET['id'])) {
                 return false;
             }
         });
+    }
+
+    function initVoting() {
+        //Get rid of any rating buttons for alots we already rated
+        $('.alot-list-item').each(function() {
+            var alot = $(this);
+            var alotId = alot.data('alot-id');
+
+            if (localStorage && localStorage.getItem) {
+                var vote = localStorage.getItem(alotId);
+                if (vote !== null) {
+                    alot.find('.rating-buttons').remove();
+                    alot.find('.rating-stats').removeClass('hide');
+                }
+            }
+        });
+
+        //Add click handlers for any rating buttons remaining
+        $('.rating-buttons button').on('click', function() {
+            var btn = $(this);
+            var vote = btn.val();
+            var alot = btn.parents('.alot-list-item');
+            var alotId = alot.data('alot-id');
+
+            //Disable the buttons
+            var ratingButtons = btn.parent();
+            ratingButtons.find('button').prop('disabled', true);
+
+            //Send the vote
+            $.post('vote.php', {
+                id: alotId,
+                vote: vote
+            })
+                .done(function(voteStats) {
+                    //Update the rating stats
+                    alot.find('.rating-stats')
+                        .html(voteStats)
+                        .removeClass('hide');
+
+                    //Remove the buttons
+                    ratingButtons.remove();
+
+                    //Remember that we've voted on this alot
+                    if (localStorage && localStorage.setItem) {
+                        localStorage.setItem(alotId, vote);
+                    }
+                })
+                .fail(function() {
+                    //Re-enable the buttons
+                    ratingButtons.find('button').prop('disabled', false);
+                });
+        });
+    }
+
+    $(document).ready(function() {
+        initAlotGeneration();
+        initVoting();
     });
 })();
 </script>

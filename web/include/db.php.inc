@@ -79,6 +79,24 @@ class DB {
             ':id' => $id
         ));
     }
+
+    public function vote_for_alot($id, $vote) {
+        $stmt = NULL;
+        if ($vote == 1) {
+            $stmt = $this->conn->prepare('UPDATE alot SET up_votes = up_votes + 1 WHERE id=:id');
+        } else if ($vote == -1) {
+            $stmt = $this->conn->prepare('UPDATE alot SET down_votes = down_votes + 1 WHERE id=:id');
+        }
+
+        if (!$stmt) {
+            trigger_error('Unable to prepare vote_for_alot', E_USER_ERROR);
+            return FALSE;
+        }
+
+        return $stmt->execute(array(
+            ':id' => $id
+        ));
+    }
     
     public function get_alots($from=0, $count=5) {
         $stmt = $this->conn->prepare('SELECT * FROM alot

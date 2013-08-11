@@ -62,6 +62,17 @@ class Config {
     public function alot_url($alot_id) {
         return $this->root_url() . '?id=' . $alot_id;
     }
+
+    public function alot_created_time($alot) {
+        $date = new DateTime($alot['added']);
+        $now = new DateTime();
+        $diff = $now->diff($date);
+        if ($diff->days < 1) {
+            return $date->format("h:ma, M d");
+        } else {
+            return $date->format("M d");
+        }
+    }
 }
 
 function read_config($file='../config/app.ini') {
