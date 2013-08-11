@@ -92,29 +92,33 @@
 #howIsAlotFormed .prefix {
 	font-size: 20px;
 	line-height: 32px;
+    margin-bottom: 10px;
 }
 
 #howIsAlotFormed form {
     position: relative;
-    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .input-boxes {
 	position: relative;
-	margin-right: 172px;
+    display: inline;
 }
 
 .input-boxes input {
-	width: 100%;
+    font-size: 16px;
+    padding: 11px 12px;
 }
 
+.input-boxes .word-input {
+    width: 180px;
+}
+.input-boxes .image-input {
+    width: 220px;
+}
 .make-alot-button {
-    margin: 0;
-	width: 150px;
-	height: 70px;
-	position: absolute;
-    right: 0;
-    top: 0;
+    margin-bottom: 10px;
+    max-width: 300px;
 }
 
 .alot-list {

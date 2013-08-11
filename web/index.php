@@ -80,7 +80,9 @@ if (isset($_GET['id'])) {
 <BODY>
 
     <div id="header">
-        <A class="brand" href="<?php echo $config->root_url() ?>">ISEETHATALOT.COM</A>
+        <div class="container">
+            <A class="brand" href="<?php echo $config->root_url() ?>">ISEETHATALOT.COM</A>
+        </div>
     </div>
 
     <DIV id="main-content" class="container">
@@ -117,9 +119,8 @@ if (isset($_GET['id'])) {
 
             <DIV id="howIsAlotFormed" class="span6">
                 <DIV class="prefix">
-                    Do you observe <del>a lot</del>
-                    <a href=http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html target=_blank>alot</a>
-                    of something?
+                    Do you observe <del>a lot</del> alot of something?
+                    <a class="muted" href="http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html" target="_blank">What is an alot?</a>
                 </DIV>
                 <FORM METHOD="POST">
                     <DIV class="input-boxes">
@@ -128,6 +129,14 @@ if (isset($_GET['id'])) {
                     </DIV>
                     <BUTTON type="submit" class="btn make-alot-button btn-primary btn-large">make this alot</button>
                 </FORM>
+                <p class="muted credit">
+                    iseethatalot.com created by
+                    <a href="http://twitter.com/mjbrks">@mjbrks</a>/<a href="http://students.washington.edu/mjbrooks">michael</a>
+                    and
+                    <a href="http://twitter.com/anachrobot">@anachrobot</a>/<a href="http://anachrobot.us">katie</a>
+                    <br/>
+                    inspired by <a href=http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html target=_blank>hyperbole and a half / allie brosh</A>
+                </p>
             </DIV>
 <!--        <DIV id="top-rated" class="alot-list span3">-->
 <!--            <h4>Alot Better</h4>-->
@@ -158,13 +167,7 @@ if (isset($_GET['id'])) {
 
     <div id="footer">
         <div class="container">
-            <p class="muted credit">by
-                <a href="http://twitter.com/anachrobot">@anachrobot</a>/<a href="http://anachrobot.us">katie</a>
-                +
-                <a href="http://twitter.com/mjbrks">@mjbrks</a>/<a href="http://students.washington.edu/mjbrooks">michael</a>.
 
-                inspired by <a href=http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html target=_blank>hyperbole and a half / allie brosh</A>
-            </p>
         </div>
     </div>
 
