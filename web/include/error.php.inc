@@ -11,7 +11,7 @@ if (!isset($message)) {
     $message = 'alot not found';
 }
 
-$error_img = "img/alots/$code.png";
+$error_img = $home . "img/alots/$code.png";
 
 header("HTTP/1.0 $code $message");
 ?>

@@ -5,6 +5,9 @@
   deny from all
 </files>
 
-# prevent reading .git directory
+# rewrite to index.php
 RewriteEngine On
-RewriteRule "^(.*/)?\.git/" - [F,L]
+# RewriteBase /application_path/
+RewriteBase /alot/
+RewriteCond $1 !^(index\.php|js|css|img|tmp|robots\.txt)
+RewriteRule ^(.*)$ index.php/$1 [L]

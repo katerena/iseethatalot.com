@@ -1,8 +1,11 @@
 (function() {
+    var ROOT_URL = '/';
+    var VOTE_URL = 'vote';
+    var ALOT_URL = 'alot';
+
     var ALOT_REFRESH_INTERVAL = 2500;
     var PLACEHOLDER_SELECTOR = '#thisAlot .generating';
     var ALOT_SELECTOR = '#thisAlot .alot';
-    var ALOT_URL = 'this_alot.php';
     var ALOT_ID = null;
 
     function scheduleRefresh() {
@@ -12,9 +15,7 @@
     function checkOnAlot() {
         console.log("Checking on alot...");
 
-        $.get(ALOT_URL, {
-            id: ALOT_ID
-        })
+        $.get(ALOT_URL + "/" + ALOT_ID)
             .done(function(content) {
                 $(ALOT_SELECTOR).replaceWith(content);
                 var generatingMsg = $(PLACEHOLDER_SELECTOR);
@@ -64,7 +65,7 @@
             ratingButtons.find('button').prop('disabled', true);
 
             //Send the vote
-            $.post('vote.php', {
+            $.post(VOTE_URL, {
                 id: alotId,
                 vote: vote
             })
@@ -112,7 +113,11 @@
         });
     }
 
-    window.running_alot = function() {
+    window.running_alot = function(options) {
+        ROOT_URL = options.root || '/';
+        VOTE_URL = ROOT_URL + VOTE_URL;
+        ALOT_URL = ROOT_URL + ALOT_URL;
+
         initAlotGeneration();
         initCreationForm();
         initVoting();
