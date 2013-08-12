@@ -11,8 +11,9 @@ class Config {
     var $request_path;
     var $parameters;
 
-    public function __construct($config) {
+    public function __construct($config, $resource_map) {
         $this->config = $config;
+        $this->resource_map = $resource_map;
 
         $this->app_path = $this->config['main']['app_path'];
         if ($this->app_path && $this->app_path[0] !== '/') {
@@ -144,6 +145,10 @@ class Config {
     }
 
     public function asset_url($asset) {
+        if (isset($this->resource_map[$asset])) {
+            $asset = $this->resource_map[$asset];
+        }
+
         return $this->root_url() . $asset;
     }
 
@@ -188,6 +193,14 @@ class Config {
     }
 }
 
-function read_config($file='../config/app.ini') {
-    return new Config(parse_ini_file($file, TRUE));
+function read_config($app='../config/app.ini', $map='../config/map.ini') {
+    $app = parse_ini_file($app, TRUE);
+
+    if (file_exists($map)) {
+        $map = parse_ini_file($map);
+    } else {
+        $map = array();
+    }
+
+    return new Config($app, $map);
 }
