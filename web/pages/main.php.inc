@@ -12,6 +12,11 @@ if ($config->is_post()) {
         die();
     }
 
+    if (strlen($word) > 120) {
+        $config->http_status(400, 'that word will not fit!');
+        die();
+    }
+
     $alot = $db->insert_alot($word, $image, NULL);
     if (!$alot) {
         $config->http_status(500, 'alot more broken');

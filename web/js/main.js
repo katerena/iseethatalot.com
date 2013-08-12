@@ -106,6 +106,12 @@
                 wordInput.focus();
             }
 
+            if (word.length > 120) {
+                wordInput.val(word.substr(0, 120))
+                word = null;
+                wordInput.focus();
+            }
+
             if (!imageUrl || !word) {
                 e.preventDefault();
                 return false;
