@@ -1,5 +1,5 @@
 <?php
-include_once 'include/this_alot.php.inc';
+include_once 'include/elements.php.inc';
 
 //Id is required
 $id = $config->get_param('id');
