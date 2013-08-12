@@ -100,7 +100,7 @@ class Config {
     }
     
     function error($code, $message) {
-        $home = $this->root_url();
+        $config = $this;
         include 'include/error.php.inc';
         die();
     }

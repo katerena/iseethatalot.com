@@ -11,7 +11,7 @@ if (!isset($message)) {
     $message = 'alot not found';
 }
 
-$error_img = $home . "img/alots/$code.png";
+$error_img = $config->asset_url("img/alots/$code.png");
 
 header("HTTP/1.0 $code $message");
 ?>
@@ -78,6 +78,6 @@ header("HTTP/1.0 $code $message");
         
         <IMG src="<?php echo $error_img?>" />
         
-        <h2>Return to <a href="<?php echo $home?>">ISEETHATALOT.COM</a></h2>
+        <h2>Return to <a href="<?php echo $config->root_url()?>">ISEETHATALOT.COM</a></h2>
     </div>
 </BODY>
