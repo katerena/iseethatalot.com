@@ -1,18 +1,14 @@
 #!/usr/bin/env python
 
 #builtins
-import hashlib
 import logging
-import mimetypes
 import os
-import subprocess
 import tempfile
 import time
-import urllib2
-import math
 import ConfigParser
 import saver
-
+import unicodedata
+import re
 from cStringIO import StringIO
 
 #ain't no party like a third party
@@ -102,7 +98,7 @@ def run_forever(db_conn, maker, saver):
                     alot_image = maker.process(base_image_url, alot_word)
 
                     # save the image somewhere
-                    alot_path = "alot_%d.png" %(alot_id)
+                    alot_path = "alot-of-%s-%d.png" %(slugify(alot_word), alot_id)
 
                     image_file = StringIO()
                     alot_image.save(image_file, format="PNG")
@@ -164,6 +160,16 @@ class QuoteConfigParser(ConfigParser.ConfigParser):
                 return val.strip("'")
             else:
                 return val
+
+def slugify(value):
+    """
+    Normalizes string, converts to lowercase, removes non-alpha characters,
+    and converts spaces to hyphens.
+    """
+    value = unicode(value)
+    value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
+    value = unicode(re.sub('[^\w\s-]', '', value).strip().lower())
+    return re.sub('[-\s]+', '-', value)
 
 
 if __name__ == '__main__':
