@@ -74,7 +74,7 @@ function show_alot_list($alots) {
 function sharing_controls($alot) {
     $alot_url = $alot->url();
     ?>
-    <div class="sharing">
+    <div class="sharing clearfix">
         <!-- Share alot on Twitter -->
         <a href="https://twitter.com/share"
            class="twitter-share-button"
@@ -89,9 +89,7 @@ function sharing_controls($alot) {
         <!-- Share alot url -->
         <span class="share-link">
             Share:
-            <a href="<?php echo $alot_url ?>">
-                <?php echo $alot_url; ?>
-            </a>
+            <input type="text" class="share-link-input" value="<?php echo $alot_url; ?>" readonly="true"/>
         </span>
     </div>
     <?php

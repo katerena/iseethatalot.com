@@ -113,6 +113,12 @@
         });
     }
 
+    function initSharing() {
+        $('.share-link-input').on('click', function(e) {
+            this.select();
+        });
+    }
+
     window.running_alot = function(options) {
         ROOT_URL = options.root || '/';
         VOTE_URL = ROOT_URL + VOTE_URL;
@@ -121,5 +127,6 @@
         initAlotGeneration();
         initCreationForm();
         initVoting();
+        initSharing();
     };
 })();

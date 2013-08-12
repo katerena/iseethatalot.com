@@ -52,7 +52,20 @@
 }
 
 #thisAlot .sharing .share-link {
-    white-space: nowrap;
+    float: right;
+}
+
+#thisAlot .sharing .share-link-input {
+    height: 18px;
+    line-height: 18px;
+    padding: 1px 4px;
+    font-size: 12px;
+    margin: 0;
+
+    /* overriding read-only stuff */
+    cursor: default;
+    background-color: #fff;
+    color: #888;
 }
 
 #howIsAlotFormed {
