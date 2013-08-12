@@ -102,7 +102,7 @@ if ($id) {
                 </DIV>
                 <FORM METHOD="POST">
                     <DIV class="input-boxes">
-                        <INPUT class="word-input" type="text" name="word" placeholder="what do you see alot of?"/>
+                        <INPUT class="word-input" type="text" name="word" placeholder="what do you see alot of?" maxlength="120"/>
                         <INPUT class="image-input" type="text"  name="image" placeholder="paste an image URL here"/>
                     </DIV>
                     <BUTTON type="submit" class="btn make-alot-button btn-primary btn-large">make this alot</button>

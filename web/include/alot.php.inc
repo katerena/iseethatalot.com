@@ -40,7 +40,10 @@ class Alot {
     }
 
     function slug_word() {
-        return str_replace(' ', '-', $this->safe_word());
+        //Remove anything totally whacky
+        $word = preg_replace('/[^\w\s-]/', '', $this->safe_word());
+        //Replace space and - with -
+        return preg_replace('/[-\s]+/', '-', $word);
     }
 
     function safe_word() {
