@@ -16,6 +16,8 @@ class S3_saver(object):
 
         key = Key(self.bucket)
         key.key = keyString
+        # good until one year from now, and public
+        key.set_metadata('Cache-Control', 'public, max-age=31536000')
         key.set_metadata('Content-Type', 'image/png')
         key.set_contents_from_string(valueString)
         key.make_public()
