@@ -9,6 +9,7 @@ import ConfigParser
 import saver
 import unicodedata
 import re
+import hashlib
 from cStringIO import StringIO
 
 #ain't no party like a third party
@@ -97,13 +98,15 @@ def run_forever(db_conn, maker, saver):
                     #call out to download and resize the image
                     alot_image = maker.process(base_image_url, alot_word)
 
-                    # save the image somewhere
-                    alot_path = "alot-of-%s-%d.png" %(slugify(alot_word), alot_id)
-
                     image_file = StringIO()
                     alot_image.save(image_file, format="PNG")
+                    file_contents = image_file.getvalue()
 
-                    alot_url = saver.save_png(alot_path, image_file.getvalue())
+                    # save the image somewhere
+                    hash_str = hashlib.sha1(file_contents).hexdigest()[0:8]
+                    alot_path = "alot-of-%s-%d-%s.png" %(slugify(alot_word), alot_id, hash_str)
+
+                    alot_url = saver.save_png(alot_path, file_contents)
 
                 except ProcessError as e:
                     #we had a handled error, set the error message to the
