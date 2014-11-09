@@ -9,6 +9,8 @@
 
 # this downloads the images for us
 import urllib2
+from urlparse import urlparse
+
 # we use this to detect the image types
 import mimetypes
 # this is for doing some simple floor/ceiling stuff
@@ -61,11 +63,18 @@ class AlotMaker(object):
         """
         log.debug("Downloading tile from %s", url)
 
+        parsed = urlparse(url)
+        if parsed.scheme == 'file':
+            raise ProcessError("Invalid url type")
+        if url.startswith('/'):
+            raise ProcessError("Invalid url")
+
         #step 1: cut a hole in the box.  Or just download the image.
         try:
             resp = urllib2.urlopen(url)
-        except urllib2.URLError:
+        except urllib2.URLError as e:
             #400-500 range error.
+            log.debug(e)
             raise ProcessError("Could not fetch %s" % url)
 
         if resp.getcode() / 100 != 2: #make sure it's a 200-class response.

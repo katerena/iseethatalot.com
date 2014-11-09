@@ -10,4 +10,4 @@ RewriteEngine On
 # RewriteBase /application_path/
 RewriteBase /alot/
 RewriteCond $1 !^(index\.php|js|css|img|tmp|robots\.txt)
-RewriteRule ^(.*)$ index.php/$1 [L]
+RewriteRule ^(.*)$ /index.php/$1 [L]

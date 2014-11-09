@@ -1,4 +1,4 @@
 boto==2.9.9
-distribute==0.6.31
-mysql-python==1.2.4
+#distribute==0.6.31
+mysql-python==1.2.5
 pillow==2.1.0

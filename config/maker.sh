@@ -10,7 +10,7 @@ sudo easy_install pip supervisor
 sudo pip install virtualenv
 
 # create and load the virtual env
-cd /var/app/current/maker
+cd ../maker
 virtualenv --distribute venv
 source venv/bin/activate
 
