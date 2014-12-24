@@ -20,6 +20,7 @@ from alot_maker import AlotMaker, ProcessError
 
 log = logging.getLogger("alot_main")
 
+MAX_STATUS_LEN = 90
 
 class TempImageFile(object):
     """temporary file object context.  Deletes the file
@@ -44,6 +45,20 @@ class TempImageFile(object):
         """
         self.file_handle.close()
         os.unlink(self.file_path)
+
+def update_status(db_conn, alot_id, processed, status, warning=None):
+    if warning:
+        log.warn(warning)
+    try:
+        status = status[:MAX_STATUS_LEN]
+        c = db_conn.cursor()
+        c.execute("""UPDATE alot
+                   SET processed=%s, status=%s
+                   WHERE id=%s""",
+                  (processed, status, alot_id))
+        c.close()
+    except Exception, e:
+        log.error("Error updating status: %s", str(e))
 
 
 def run_forever(db_conn, maker, saver):
@@ -70,6 +85,7 @@ def run_forever(db_conn, maker, saver):
 
     log.info("monitoring alot of alots...")
     while True:
+
         #check for unprocessed stuffs which have no error messages
         c = db_conn.cursor()
         c.execute("""SELECT id, image, added, word
@@ -111,25 +127,15 @@ def run_forever(db_conn, maker, saver):
                 except ProcessError as e:
                     #we had a handled error, set the error message to the
                     #exception message and flag it as processed.
-                    log.warn("caught handled error: %s", e)
-                    c = db_conn.cursor()
-                    c.execute("""UPDATE alot
-                                   SET processed=TRUE, status=%s
-                                   WHERE id=%s""",
-                              (str(e), alot_id))
-                    c.close()
+                    update_status(db_conn, alot_id, processed=True, status=str(e),
+                                  warning="caught handled error: %s" % str(e))
 
                 except Exception as e:
                     #catch all other exceptions, log them.
-                    log.exception("unknown exception in image processor")
                     #set it to unprocessed, but an error message, so we don't
                     #immediately process it again.
-                    c = db_conn.cursor()
-                    c.execute("""UPDATE alot
-                                    SET processed=FALSE, status=%s
-                                    WHERE id=%s""",
-                              (str(e), alot_id))
-                    c.close()
+                    update_status(db_conn, alot_id, processed=False, status=str(e), 
+                                  warning="unknown exception in image processor: %s" % str(e))
 
                 else:
                     #no exception, set it to processed and add on the data
