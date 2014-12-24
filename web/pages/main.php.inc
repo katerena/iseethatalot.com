@@ -38,11 +38,14 @@ if (!$id && $ordinal && $word) {
     $id = Alot::parse_ordinal($ordinal);
 }
 
+$description = "Do you see alot of something?";
 if ($id) {
     //must find alot
     $alot = $db->get_alot($id);
     if (!$alot || ($word && ($alot->slug_word() !== $word))) {
         $config->error(404, 'alot not found');
+    } else {
+        $description = "alot of " . $word;
     }
 } else {
     $alot = NULL;
@@ -56,8 +59,8 @@ if ($id) {
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <LINK type='text/css' rel='stylesheet' href='<?php echo $config->asset_url('css/styles.css')?>' />
 
-    <meta name="description" content="Do you see alot of something?">
-    <meta property="og:description" content="Do you see alot of something?">
+    <meta name="description" content="<?php echo $description ?>">
+    <meta property="og:description" content="<?php echo $description ?>">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@seethatalot">
