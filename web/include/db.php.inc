@@ -120,6 +120,7 @@ class DB {
     public function all_alots($from=0, $count=100) {
         //Alots with no errors and no 0 curator rating
         $stmt = $this->conn->prepare('SELECT * FROM alot
+	                                WHERE status IS NULL
                                         ORDER BY added DESC
                                         LIMIT :from, :count');
         if (!$stmt) {
